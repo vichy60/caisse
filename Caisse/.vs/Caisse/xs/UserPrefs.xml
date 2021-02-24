@@ -1,0 +1,47 @@
+﻿<Properties StartupConfiguration="{8083064A-94EC-4440-AC56-FBC60EC0BA5F}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Classes/Database.cs">
+    <Files>
+      <File FileName="Classes/Product.cs" Line="32" Column="1" NotebookId="2" />
+      <File FileName="Classes/Payment.cs" Line="4" Column="1" NotebookId="2" />
+      <File FileName="Classes/CashRegister.cs" Line="25" Column="39" NotebookId="2" />
+      <File FileName="Classes/IHM.cs" Line="120" Column="1" NotebookId="2" />
+      <File FileName="Classes/CashPayment.cs" Line="21" Column="14" NotebookId="2" />
+      <File FileName="Classes/Database.cs" Line="7" Column="9" NotebookId="2" />
+      <File FileName="sql/Payment.sql" Line="10" Column="7" NotebookId="3" />
+      <File FileName="sql/product.sql" Line="5" Column="8" NotebookId="3" />
+    </Files>
+    <FloatingWindows>
+      <FloatingWindow WindowId="1" X="1920" Y="0" Width="1920" Height="1035">
+        <Files>
+          <File FileName="Classes/Order.cs" Line="5" Column="29" />
+          <File FileName="Interfaces/IPayment.cs" Line="9" Column="14" />
+          <File FileName="sql/Order.sql" Line="6" Column="4" NotebookId="1" />
+        </Files>
+      </FloatingWindow>
+    </FloatingWindows>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Caisse" expanded="True">
+            <Node name="Caisse" expanded="True">
+              <Node name="Classes" expanded="True">
+                <Node name="Database.cs" selected="True" />
+              </Node>
+              <Node name="Interfaces" expanded="True" />
+              <Node name="sql" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.Caisse PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Volumes/Macintosh_HD_3To/Users/xenon/Documents/github/FormationDOTNET0221/Caisse/sql/Payment.sql" relfile="sql/Payment.sql" line="7" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
