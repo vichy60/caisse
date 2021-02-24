@@ -3,7 +3,7 @@
 Create Table Orders
 idOrder int not null auto increment,
 dateOrder Date default CURRENT_TIMESTAMP,
-status varchar(14) NOT NULL CHECK (status IN ("Waiting","Confirmed","Canceled")) ;
+status varchar(14) NOT NULL CHECK (status IN ("Waiting","Confirmed","Canceled", "Error")) ;
 
 
 

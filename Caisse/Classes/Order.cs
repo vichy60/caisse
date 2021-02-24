@@ -2,6 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
+using Caisse.Tools;
 
 namespace Caisse.Classes
 {
@@ -17,6 +20,12 @@ namespace Caisse.Classes
         private IPayment payment;
 
         private static int count = 0;
+
+
+        /* ****************** */
+        private static SqlCommand command;
+        private static SqlDataReader reader;
+        /* ****************** */
 
         public int Id { get => id; }
         public DateTime DateOrder { get => dateOrder; set => dateOrder = value; }
@@ -53,14 +62,14 @@ namespace Caisse.Classes
             return true;
         }
 
-        public bool Confirm(IPayment payment)
+        public int Confirm(IPayment payment)
         {
             Payment = payment;
             if(Payment.Pay(Total))
             {
-                Status = OrderStatus.Confirmed;
-                bool succesCommand = true;
-
+                Status = OrderStatus.Error;
+                bool succesCommandInsert = false;
+                int succesStatus = 0;
                 
 
 
@@ -69,24 +78,67 @@ namespace Caisse.Classes
                 {
                 
 
-                    string requete = @"insert into ProductOrders SET price = @price, idOrder = @idOrder, idProduct = @idProduct ";
+                    string request = @"insert into ProductOrders SET price = @price, idOrder = @idOrder, idProduct = @idProduct ";
 
-                    /* ******* 
-                      ('@price',p.Price);
-                        ('@idOrder', p.idOrder);
-                        ('@idProduct', p.Id);
-                    */
+                    /* ******* */
+                    command = new SqlCommand(request, DataBase.Connection);
+                    command.Parameters.Add(new SqlParameter("@price",p.Price));
+                    command.Parameters.Add(new SqlParameter("@idOrder", this.Id));
+                    command.Parameters.Add(new SqlParameter("@idProduct", p.Id));
+                    /* ********* */
 
-
-                    if (command) {
+                    if (command.ExecuteNonQuery() > 0) {
+                        /* ********* */
                         p.Stock -= 1;
+                        /* ********* */
+                        request = @"Update Product set stock = (stock-1) where idProduct = @idProduct ";
+                        command = new SqlCommand(request, DataBase.Connection);
+                        
+                        /* ********* */
+                        int result = command.ExecuteNonQuery();
+
+                        command.Dispose();
+
+                        if (result < 1 )
+                        {
+                            succesCommandInsert = false;
+                            return;
+                        }
+
+
+                        /* ********* */
+                        request = @"select stock from Product where idProduct = @idProduct ";
+                        command = new SqlCommand(request, DataBase.Connection);
+                        command.Parameters.Add(new SqlParameter("@idProduct", p.Id));
+
+
+                        DataBase.Connection.Open();
+                        SqlDataReader reader = command.ExecuteReader();
+
+                        if (reader.Read())
+                        {
+                            stock
+                        }
+
+
+                        succesCommandInsert = true;
+                        /* ********* */
+
                     }
                     else
                     {
-                        requete = @"Update Orders set status = @status";
+                        succesCommandInsert = false;
 
-                        ('',OrderStatus.Error);
-                        succesCommand = false;
+                        request = @"Update Orders set status = @status";
+                        command = new SqlCommand(request, DataBase.Connection);
+                        command.Parameters.Add(new SqlParameter("@status",OrderStatus.Error));
+
+                        int result = command.ExecuteNonQuery();
+                        if (result < 1)
+                        {
+                            Console.WriteLine("BDD Error ...");                            
+                        }
+
                         return;
 
                     }
@@ -94,19 +146,30 @@ namespace Caisse.Classes
 
                 });
 
-                if (Products.Count > 0 && succesCommand)
+                if (Products.Count > 0 && succesCommandInsert)
                 {
-                    string requete = @"Update Orders set status = @status";
+                    string request = @"Update Orders set status = @status";
+                    command.Parameters.Add(new SqlParameter("@status", Status));
 
-                    ('@status', Status);
+                    command = new SqlCommand(request, DataBase.Connection);
 
-                    if (command) {
-                        return true;
+                    object result = command.ExecuteScalar();
+
+                    if ((result.GetType() != typeof(DBNull)) && int.TryParse(result.ToString(), out this.id))
+                    {
+                        // inserted ID
+                        command.Dispose();
+                        return Id;
+                    }
+                    else
+                    {
+                        command.Dispose();
+                        return -1;
                     }
                 }
                 
             }
-            return false;
+            return -1;
         }
 
         public int save()

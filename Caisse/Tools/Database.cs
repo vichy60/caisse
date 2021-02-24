@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Text;
+using Microsoft.Data.SqlClient;
 
 namespace Caisse.Tools
 {
@@ -10,4 +11,5 @@ namespace Caisse.Tools
         private static string chaine = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\ihab\source\repos\CoursMCPDNETF\FichierBaseDeDonneesSqlServer.mdf;Integrated Security=True;Connect Timeout=30";
         public static SqlConnection Connection = new SqlConnection(chaine);
     }
+
 }
