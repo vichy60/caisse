@@ -1,0 +1,7 @@
+--create table product (id int primary key IDENTITY(1,1),title varchar(100) not null,price decimal not null,stock tinyint not null); 
+
+-- create table Orders (id int primary key IDENTITY(1,1),dateOrder DateTime , status varchar (10) not null, total decimal not null) ; 
+
+--create table productOrders(id int primary key IDENTITY(1,1),productId int, ordersId  int);
+
+create table payment (id int primary key IDENTITY(1,1),amount decimal, orderId int, typePayment varchar(15), datePayment datetime);
